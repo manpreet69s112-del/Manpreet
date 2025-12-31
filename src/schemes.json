@@ -1,0 +1,106 @@
+[
+  {
+    "slug": "pm-kisan-samman-nidhi",
+    "name": "PM Kisan Samman Nidhi",
+    "category": "Farmers",
+    "description": "Get ₹6,000 per year directly into your bank account. For landholding farmer families.",
+    "min_age": 18,
+    "max_age": 100,
+    "income_limit": 10000000,
+    "state": "All India",
+    "link": "https://pmkisan.gov.in/"
+  },
+  {
+    "slug": "pm-vishwakarma-yojana",
+    "name": "PM Vishwakarma Yojana",
+    "category": "Students",
+    "description": "Loans up to ₹3 Lakh at 5% interest + Toolkit incentive for artisans.",
+    "min_age": 18,
+    "max_age": 50,
+    "income_limit": 300000,
+    "state": "All India",
+    "link": "https://pmvishwakarma.gov.in/"
+  },
+  {
+    "slug": "ladli-behna-yojana",
+    "name": "Ladli Behna Yojana",
+    "category": "Women",
+    "description": "Monthly financial assistance of ₹1,250 for women in Madhya Pradesh.",
+    "min_age": 21,
+    "max_age": 60,
+    "income_limit": 250000,
+    "state": "Madhya Pradesh",
+    "link": "https://cmladlibehna.mp.gov.in/"
+  },
+  {
+    "slug": "ayushman-bharat",
+    "name": "Ayushman Bharat (PMJAY)",
+    "category": "Housing",
+    "description": "Free health insurance coverage up to ₹5 Lakh per family per year.",
+    "min_age": 0,
+    "max_age": 100,
+    "income_limit": 250000,
+    "state": "All India",
+    "link": "https://pmjay.gov.in/"
+  },
+  {
+    "slug": "pm-surya-ghar",
+    "name": "PM Surya Ghar Muft Bijli",
+    "description": "Get 300 units free electricity and subsidy for installing Solar Panels.",
+    "min_age": 18,
+    "max_age": 100,
+    "income_limit": 10000000,
+    "state": "All India",
+    "link": "https://pmsuryaghar.gov.in/"
+  },
+  {
+    "slug": "atal-pension-yojana",
+    "name": "Atal Pension Yojana (APY)",
+    "description": "Guaranteed pension of ₹1,000 to ₹5,000/month after age 60.",
+    "min_age": 18,
+    "max_age": 40,
+    "income_limit": 10000000,
+    "state": "All India",
+    "link": "https://npscra.nsdl.co.in/scheme-details.php"
+  },
+  {
+    "slug": "mahtari-vandana-yojana",
+    "name": "Mahtari Vandana Yojana",
+    "description": "₹1,000 per month for married women in Chhattisgarh.",
+    "min_age": 21,
+    "max_age": 60,
+    "income_limit": 250000,
+    "state": "Chhattisgarh",
+    "link": "https://mahtarivandan.cgstate.gov.in/"
+  },
+  {
+    "slug": "pm-awas-yojana",
+    "name": "PM Awas Yojana (Urban)",
+    "description": "Interest subsidy on home loans for first-time home buyers.",
+    "min_age": 18,
+    "max_age": 70,
+    "income_limit": 1800000,
+    "state": "All India",
+    "link": "https://pmaymis.gov.in/"
+  },
+  {
+    "slug": "sukanya-samriddhi",
+    "name": "Sukanya Samriddhi Yojana",
+    "description": "High-interest savings scheme for the girl child (below 10 years).",
+    "min_age": 0,
+    "max_age": 10,
+    "income_limit": 10000000,
+    "state": "All India",
+    "link": "https://www.nsiindia.gov.in/"
+  },
+  {
+    "slug": "pm-mudra-yojana",
+    "name": "PM Mudra Loan",
+    "description": "Business loans up to ₹10 Lakh for small businesses without collateral.",
+    "min_age": 18,
+    "max_age": 65,
+    "income_limit": 10000000,
+    "state": "All India",
+    "link": "https://www.mudra.org.in/"
+  }
+]

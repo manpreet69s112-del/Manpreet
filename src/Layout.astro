@@ -1,0 +1,142 @@
+---
+const { title, lang = "en" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+    
+    <style is:global>
+    /* RESET & VARIABLES */
+    *, *::before, *::after { box-sizing: border-box; }
+    
+    :root {
+        /* GOVERNMENT LIGHT THEME */
+        --bg-body: #F9FAFB;   
+        --bg-surface: #FFFFFF; 
+        
+        --primary: #2563EB;   
+        --primary-dark: #1E40AF;
+        --primary-light: #EFF6FF;
+        --accent: #16A34A;    
+        
+        --text-main: #111827; 
+        --text-secondary: #374151; 
+        --text-muted: #6B7280; 
+        
+        --border: #E5E7EB;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        
+        --radius: 12px;
+    }
+
+    html, body {
+        overflow-x: hidden; /* CRITICAL FIX: Prevents side scrolling */
+        width: 100%;
+        max-width: 100%;
+    }
+
+    body { 
+        margin: 0; 
+        font-family: 'Inter', sans-serif; 
+        background-color: var(--bg-body);
+        color: var(--text-main); 
+        display: flex; 
+        flex-direction: column; 
+        min-height: 100vh; 
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* STICKY NAVBAR */
+    .navbar { 
+        background: rgba(255, 255, 255, 0.95); 
+        backdrop-filter: blur(10px); 
+        border-bottom: 1px solid var(--border); 
+        position: sticky; 
+        top: 0; 
+        z-index: 1000; 
+        width: 100%; /* Ensures navbar doesn't stretch */
+    }
+    
+    .nav-container { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        padding: 12px 20px;
+        width: 100%;
+    }
+    
+    .logo { 
+        font-weight: 700; 
+        font-size: 18px; /* Slightly smaller for mobile safety */
+        color: var(--text-main); 
+        text-decoration: none; 
+        display: flex; 
+        align-items: center; 
+        gap: 8px; 
+    }
+    .logo-icon { color: var(--primary); font-size: 24px; }
+    
+    .nav-actions { display: flex; gap: 15px; align-items: center; }
+    
+    .lang-btn {
+        background: var(--bg-body);
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        border: 1px solid var(--border);
+        display: flex; align-items: center; gap: 5px;
+        transition: 0.2s;
+        white-space: nowrap; /* Prevents button text wrap */
+    }
+    .lang-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* FOOTER */
+    footer { 
+        background: var(--bg-surface); 
+        border-top: 1px solid var(--border); 
+        padding: 30px 20px; 
+        margin-top: auto; 
+        text-align: center; 
+        width: 100%;
+    }
+    
+    .material-symbols-rounded { font-size: 20px; vertical-align: middle; }
+</style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="material-symbols-rounded logo-icon">verified_user</span> 
+                CheckYojana
+            </a>
+            <div class="nav-actions">
+                <a href="/hi" class="lang-btn">
+                    <span class="material-symbols-rounded" style="font-size:16px">language</span>
+                    Hindi
+                </a>
+            </div>
+        </div>
+    </nav>
+    <slot />
+    <footer>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+            © 2025 CheckYojana Portal • Citizen Services Information
+        </p>
+    </footer>
+</body>
+</html>

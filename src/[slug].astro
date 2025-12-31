@@ -1,0 +1,320 @@
+---
+import Layout from '../layouts/Layout.astro';
+import schemes from '../data/schemes.json';
+
+export async function getStaticPaths() {
+  return schemes.map((scheme) => ({
+    params: { slug: scheme.slug },
+    props: { scheme },
+  }));
+}
+
+const { scheme } = Astro.props;
+---
+
+<Layout title={`Apply: ${scheme.name}`}>
+    
+    <div class="page-header">
+        <div class="container">
+            <div class="header-top">
+                <a href="/" class="back-link">
+                    <span class="material-symbols-rounded">arrow_back</span> Back
+                </a>
+                <button id="shareBtn" class="share-btn">
+                    <span class="material-symbols-rounded">share</span> Share
+                </button>
+            </div>
+            
+            <div class="header-main">
+                <div class="icon-lg">
+                    <span class="material-symbols-rounded">account_balance</span>
+                </div>
+                <div>
+                    <h1>{scheme.name}</h1>
+                    <div class="badges">
+                        <span class="badge state">{scheme.state}</span>
+                        <span class="badge category">{scheme.category || 'General'}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container layout-grid">
+        <div class="main-col">
+            <div class="card form-card">
+                <div class="card-header">
+                    <h3>Check Eligibility</h3>
+                    <p>Enter your details to verify status.</p>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Applicant Age</label>
+                        <div class="input-wrap">
+                            <span class="material-symbols-rounded input-icon">cake</span>
+                            <input type="number" id="age" placeholder="e.g. 25">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Annual Family Income (₹)</label>
+                        <div class="input-wrap">
+                            <span class="material-symbols-rounded input-icon">payments</span>
+                            <input type="number" id="income" placeholder="e.g. 150000">
+                        </div>
+                    </div>
+                </div>
+                <button id="checkBtn">Check Eligibility Status</button>
+                <div id="result"></div>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="card info-card">
+                <h3>Scheme Details</h3>
+                <p class="desc">{scheme.description}</p>
+                <div class="divider"></div>
+                <h4>Required Documents</h4>
+                <ul class="doc-list">
+                    <li><span class="material-symbols-rounded">check</span> Aadhar Card</li>
+                    <li><span class="material-symbols-rounded">check</span> Bank Passbook</li>
+                    <li><span class="material-symbols-rounded">check</span> Income Certificate</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <script define:vars={{ min: scheme.min_age, max: scheme.max_age, limit: scheme.income_limit, link: scheme.link, title: scheme.name }}>
+      const btn = document.getElementById('checkBtn');
+      const result = document.getElementById('result');
+      const shareBtn = document.getElementById('shareBtn');
+      
+      // SHARE LOGIC
+      shareBtn.addEventListener('click', async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `Check Eligibility for ${title}`,
+                    text: `Check if you are eligible for ${title} on CheckYojana.`,
+                    url: window.location.href,
+                });
+            } catch (err) { console.log('Share canceled'); }
+        } else {
+            // Fallback: Copy to clipboard
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied to clipboard!");
+        }
+      });
+
+      // ELIGIBILITY LOGIC
+      btn.addEventListener('click', () => {
+        const age = Number(document.getElementById('age').value);
+        const income = Number(document.getElementById('income').value);
+        if(!age || !income) { alert("Please enter all details"); return; }
+
+        result.style.display = 'block';
+        if (age >= min && age <= max && income <= limit) {
+          result.className = 'res-box success';
+          result.innerHTML = `
+            <div class="res-icon"><span class="material-symbols-rounded">check_circle</span></div>
+            <div>
+                <h4>You are Eligible!</h4>
+                <p>You meet all the criteria.</p>
+                <a href="${link}" target="_blank" class="apply-btn">Apply Online <span class="material-symbols-rounded">open_in_new</span></a>
+            </div>`;
+        } else {
+          result.className = 'res-box fail';
+          result.innerHTML = `
+            <div class="res-icon"><span class="material-symbols-rounded">cancel</span></div>
+            <div>
+                <h4>Not Eligible</h4>
+                <p>Requirements: Age ${min}-${max}, Income < ₹${(limit/100000).toFixed(1)}L</p>
+            </div>`;
+        }
+      });
+    </script>
+</Layout>
+
+<style>
+    /* HEADER SECTION */
+    .page-header { 
+        background: white; 
+        border-bottom: 1px solid #E5E7EB; 
+        padding: 30px 0 40px; 
+    }
+
+    /* FIX: Pushes Back button left and Share button right */
+    .header-top { 
+        display: flex; 
+        justify-content: space-between; /* This pushes them apart */
+        align-items: center; 
+        margin-bottom: 30px; 
+        width: 100%;
+    }
+
+    .back-link { 
+        display: flex; 
+        align-items: center; 
+        gap: 6px; 
+        color: #6B7280; 
+        text-decoration: none; 
+        font-size: 14px; 
+        font-weight: 500;
+        transition: 0.2s;
+    }
+    .back-link:hover { color: #111827; transform: translateX(-3px); }
+
+    /* Polished Share Button */
+    .share-btn { 
+        background: white; 
+        border: 1px solid #E5E7EB; 
+        padding: 8px 18px; 
+        border-radius: 50px; /* Pill shape */
+        cursor: pointer; 
+        display: flex; 
+        align-items: center; 
+        gap: 8px; 
+        font-size: 13px; 
+        font-weight: 600; 
+        color: #374151; 
+        transition: all 0.2s;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .share-btn:hover { 
+        background: #F9FAFB; 
+        border-color: #2563EB; 
+        color: #2563EB;
+        transform: translateY(-1px);
+    }
+
+    /* Main Header Content */
+    .header-main { display: flex; align-items: center; gap: 20px; }
+    
+    .icon-lg { 
+        width: 64px; 
+        height: 64px; 
+        background: #EFF6FF; 
+        border-radius: 16px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        color: #2563EB; 
+        border: 1px solid #DBEAFE;
+    }
+    .icon-lg span { font-size: 32px; }
+    
+    h1 { font-size: 2rem; margin: 0 0 12px; color: #111827; letter-spacing: -0.5px; }
+    
+    .badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .badge { 
+        padding: 4px 12px; 
+        border-radius: 6px; 
+        font-size: 12px; 
+        font-weight: 600; 
+        border: 1px solid #E5E7EB; 
+        background: #F9FAFB; 
+        color: #374151; 
+    }
+    .badge.category { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+
+    /* LAYOUT */
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+    .layout-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-top: 40px; padding-bottom: 60px; }
+
+    /* CARDS */
+    .card { 
+        background: white; 
+        border: 1px solid #E5E7EB; 
+        border-radius: 16px; 
+        padding: 30px; 
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        margin-bottom: 20px; 
+    }
+    .card h3 { margin: 0 0 10px; font-size: 1.25rem; font-weight: 600; }
+    .card p { color: #6B7280; margin: 0; font-size: 0.95rem; line-height: 1.6; }
+
+    /* FORM STYLES */
+    .form-grid { display: grid; gap: 24px; margin: 30px 0; }
+    label { display: block; margin-bottom: 8px; font-weight: 500; color: #374151; font-size: 14px; }
+    
+    .input-wrap { position: relative; }
+    .input-wrap input { 
+        width: 100%; 
+        padding: 14px 14px 14px 45px; 
+        border: 1px solid #D1D5DB; 
+        border-radius: 10px; 
+        font-size: 16px; 
+        outline: none; 
+        transition: 0.2s; 
+        background: white; 
+        color: #111; 
+    }
+    .input-wrap input:focus { border-color: #2563EB; box-shadow: 0 0 0 4px #EFF6FF; }
+    .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #9CA3AF; font-size: 20px; }
+
+    button#checkBtn { 
+        width: 100%; 
+        padding: 16px; 
+        background: #2563EB; 
+        color: white; 
+        border: none; 
+        border-radius: 10px; 
+        font-weight: 600; 
+        font-size: 16px; 
+        cursor: pointer; 
+        transition: 0.2s;
+    }
+    button#checkBtn:hover { background: #1D4ED8; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+
+    /* SIDEBAR */
+    .desc { line-height: 1.6; color: #4B5563; margin-top: 15px !important; }
+    .divider { height: 1px; background: #E5E7EB; margin: 24px 0; }
+    .doc-list { list-style: none; padding: 0; margin: 15px 0 0; }
+    .doc-list li { display: flex; gap: 10px; font-size: 14px; padding: 10px 0; color: #4B5563; border-bottom: 1px dashed #F3F4F6; }
+    .doc-list li:last-child { border-bottom: none; }
+    .doc-list span { color: #16A34A; font-size: 18px; background: #DCFCE7; border-radius: 50%; padding: 2px; }
+
+    /* RESULTS */
+    #result { margin-top: 24px; display: none; animation: fadeIn 0.3s ease-out; }
+    .res-box { padding: 24px; border-radius: 12px; display: flex; gap: 16px; align-items: start; }
+    .success { background: #F0FDF4; border: 1px solid #BBF7D0; }
+    .fail { background: #FEF2F2; border: 1px solid #FECACA; }
+    
+    .res-icon { 
+        background: white; 
+        border-radius: 50%; 
+        width: 32px; height: 32px; 
+        display: flex; align-items: center; justify-content: center; 
+        flex-shrink: 0;
+    }
+    .success .res-icon { color: #16A34A; }
+    .fail .res-icon { color: #DC2626; }
+
+    .res-box h4 { margin: 0 0 5px; font-size: 16px; color: #111; }
+    .res-box p { font-size: 14px; color: #4B5563; margin: 0; }
+
+    .apply-btn { 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 6px; 
+        margin-top: 12px; 
+        background: #16A34A; 
+        color: white; 
+        padding: 8px 16px; 
+        border-radius: 6px; 
+        text-decoration: none; 
+        font-size: 13px; 
+        font-weight: 600; 
+        transition: 0.2s;
+    }
+    .apply-btn:hover { background: #15803D; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+        .layout-grid { grid-template-columns: 1fr; gap: 20px; }
+        .page-header { padding: 20px 0; }
+        .header-main { flex-direction: column; text-align: center; }
+        .badges { justify-content: center; }
+        h1 { font-size: 1.6rem; }
+    }
+</style>
