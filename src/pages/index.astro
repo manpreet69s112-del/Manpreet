@@ -1,1 +1,15 @@
-g
+---
+import Layout from "../layouts/Layout.astro";
+import schemes from "../data/schemes.json";
+---
+
+<Layout title="Government Schemes">
+  {schemes.map((scheme) => (
+    <div class="card">
+      <h2>{scheme.name}</h2>
+      <p>{scheme.description}</p>
+      <p><strong>State:</strong> {scheme.state}</p>
+      <a href={`./${scheme.slug}`}>View Details →</a>
+    </div>
+  ))}
+</Layout>
