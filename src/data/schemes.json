@@ -1,0 +1,23 @@
+[
+  {
+    "slug": "pm-kisan-samman-nidhi",
+    "name": "PM Kisan Samman Nidhi",
+    "description": "Get ₹6,000 per year for farmers.",
+    "state": "All India",
+    "link": "https://pmkisan.gov.in/"
+  },
+  {
+    "slug": "pm-vishwakarma-yojana",
+    "name": "PM Vishwakarma Yojana",
+    "description": "Loans and incentives for artisans.",
+    "state": "All India",
+    "link": "https://pmvishwakarma.gov.in/"
+  },
+  {
+    "slug": "ladli-behna-yojana",
+    "name": "Ladli Behna Yojana",
+    "description": "₹1250 monthly support for women.",
+    "state": "Madhya Pradesh",
+    "link": "https://cmladlibehna.mp.gov.in/"
+  }
+]
